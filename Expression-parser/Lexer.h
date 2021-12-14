@@ -82,8 +82,7 @@ namespace Lexer {
 
     Token newErrorToken(int index, int end, std::string message);
 
-    // TODO: probably should be global constant
-    //Token _EOF(-1, -1, TokenType::Character, 0, "");
+    Token _EOF(-1, -1, TokenType::Character, 0, "");
 
     class Lexer {
     public:
