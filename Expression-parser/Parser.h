@@ -33,17 +33,20 @@ namespace Parser {
 
         // TODO: simpleExpressionChecker = SimpleExpressionChecker;
     public:
+        Parser(Lexer::Lexer lexer) : lexer(lexer) {};
+        // implement only parse action for now
         Ast::ASTWithSource parseAction(std::string input, std::string location, int absoluteOffset, InterpolationConfig& interpolationConfig = DEFAULT_INTERPOLATION_CONFIG);
-        Ast::ASTWithSource parseBinding(std::string input, std::string location, int absoluteOffset, InterpolationConfig& interpolationConfig = DEFAULT_INTERPOLATION_CONFIG);
-        Ast::ASTWithSource parseSimpleBinding(std::string input, std::string location, int absoluteOffset, InterpolationConfig& interpolationConfig = DEFAULT_INTERPOLATION_CONFIG);
-        // TODO: fill the rest
+        // Ast::ASTWithSource parseBinding(std::string input, std::string location, int absoluteOffset, InterpolationConfig& interpolationConfig = DEFAULT_INTERPOLATION_CONFIG);
+        // Ast::ASTWithSource parseSimpleBinding(std::string input, std::string location, int absoluteOffset, InterpolationConfig& interpolationConfig = DEFAULT_INTERPOLATION_CONFIG);
     private:
         std::vector<std::string> checkSimpleExpression(Ast::AST& ast);
         void _reportError(std::string message, std::string input, std::string errLocation, std::optional<std::string> ctxLocation);
         Ast::AST _parseBindingAst(std::string input, std::string location, int absoluteOffset, InterpolationConfig interpolationConfig);
         std::optional<Ast::AST> _parseQuote(std::optional<std::string> input, std::string location, int absoluteOffset);
         // TODO: fill the rest
-        std::string _stripComments(std::string input)
+        std::string _stripComments(std::string input);
+        int _commentStart(std::string input);
+        void _checkNoInterpolation(std::string input, std::string location, InterpolationConfig interpolationConfig);
 
     };
 }

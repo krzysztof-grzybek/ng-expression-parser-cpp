@@ -29,7 +29,6 @@ namespace Lexer {
     }
 
     Token::Token(const int index, const int end, const TokenType type, const float numValue, const std::string strValue) : index{ index }, end{ end }, type{ type }, numValue{ numValue }, strValue{ strValue } {}
-
     bool Token::isCharacter(const short int  code) {
         return type == TokenType::Character && numValue == code;
     }

@@ -4,8 +4,9 @@
 #include "Chars.h"
 
 namespace Lexer {
+    std::string fromCharCode(int charCode);
+    int charCodeAt(std::string subject, int pos);
 
-    // TODO: consder "extern" if used in multiple files
     enum TokenType {
         Character,
         Identifier,
@@ -16,7 +17,6 @@ namespace Lexer {
         Number,
         Error
     };
-    // TODO: consder "extern" if used in multiple files
     const std::string KEYWORDS[]{ "var", "let", "as", "null", "undefined", "true", "false", "if", "else", "this" };
     class Token {
     public:
@@ -28,7 +28,6 @@ namespace Lexer {
         const float numValue;
         const std::string strValue;
 
-        void swap(Token& newToken);
         bool isCharacter(const short int  code);
 
         bool isNumber();
