@@ -81,7 +81,7 @@ namespace Lexer {
 
     Token newErrorToken(int index, int end, std::string message);
 
-    Token _EOF(-1, -1, TokenType::Character, 0, "");
+    inline Token _EOF(-1, -1, TokenType::Character, 0, "");
 
     class Lexer {
     public:

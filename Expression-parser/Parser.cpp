@@ -272,7 +272,48 @@ public:
 };
 
 
+// UnquotedChars
 
+class UnquotedChars {
+    std::string value;
+    std::string::iterator current;
+    std::string::iterator end;
+    char currentQuote = -1;
+    int escapeCount = 0;
+
+public:
+
+    UnquotedChars(std::string _value, short int start = 0) : value(_value), current(value.begin()), end(value.end()) {
+        current += start;
+    };
+
+
+    char next() {
+        int returnCode = 0;
+
+        while (current != end) {
+
+            int currentCode = static_cast<int>(*current);
+
+            if (Chars::isQuote(currentCode) && (currentQuote == -1 || currentQuote == currentCode) && escapeCount % 2 == 0) {
+                currentQuote = currentQuote == -1 ? currentCode : -1;
+            }
+            else if (currentQuote == -1) {
+                returnCode = currentCode;
+            }
+
+            escapeCount = currentCode == Chars::$BACKSLASH ? escapeCount + 1 : 0;
+
+            ++current;
+
+            if (returnCode != 0) {
+                return static_cast<char>(returnCode);
+            }
+        }
+
+        return static_cast<char>(returnCode);
+    }
+};
 
 // Parser region
 
@@ -314,8 +355,30 @@ int Parser::Parser::_commentStart(std::string input) {
 }
 
 void Parser::Parser::_checkNoInterpolation(std::string input, std::string location, InterpolationConfig interpolationConfig) {
-    int i = _commentStart(input);
-    return i != -1 ? trim(input.substr(0, i)) : input;
+    int startIndex = -1;
+    int endIndex = -1;
+
+    UnquotedChars unquotedChars{ input };
+
+    while (auto charIndex = unquotedChars.next()) {
+        if (startIndex == = -1) {
+            if (input.startsWith(start)) {
+                startIndex = charIndex;
+            }
+        }
+        else {
+            endIndex = this._getInterpolationEndIndex(input, end, charIndex);
+            if (endIndex > -1) {
+                break;
+            }
+        }
+    }
+
+    if (startIndex > -1 && endIndex > -1) {
+        this._reportError(
+            `Got interpolation(${ start }${ end }) where expression was expected`, input,
+            `at column ${ startIndex } in`, location);
+    }
 }
 
 
