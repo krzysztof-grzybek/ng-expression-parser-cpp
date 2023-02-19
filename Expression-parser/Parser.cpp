@@ -361,7 +361,7 @@ void Parser::Parser::_checkNoInterpolation(std::string input, std::string locati
     UnquotedChars unquotedChars{ input };
 
     while (auto charIndex = unquotedChars.next()) {
-        if (startIndex == = -1) {
+        if (startIndex == -1) {
             if (input.startsWith(start)) {
                 startIndex = charIndex;
             }
